@@ -1,21 +1,40 @@
 import express from 'express'
 import { ApolloServer, gql } from 'apollo-server-express'
 
+const books = [
+  {
+    title: 'Harry Potter and the Chamber of Secrets',
+    author: 'J.K. Rowling',
+  },
+  {
+    title: 'Jurassic Park',
+    author: 'Michael Crichton',
+  },
+]
+
 const typeDefs = gql`
+  type Book {
+    title: String
+    author: String
+  }
+
   type Query {
-    hello: String
+    books: [Book]
   }
 `
 
 const resolvers = {
   Query: {
-    hello: () => 'Hello world!',
+    books: () => books,
   },
 }
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  engine: {
+    apiKey: process.env.API_KEY,
+  },
 })
 
 const app = express()
