@@ -1,4 +1,8 @@
-export * from './mutations'
-export * from './queries'
-export * from './schema'
-export * from './subscription'
+import { GraphQLModule } from '@graphql-modules/core'
+import * as typeDefs from './schema.graphql'
+import resolvers from './resolvers'
+
+export const userModule = new GraphQLModule({
+  typeDefs,
+  resolvers,
+})
