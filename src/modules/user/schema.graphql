@@ -8,3 +8,7 @@ type User {
   password: String!
   email: String!
 }
+
+type Mutation {
+  createUser(id: ID!): User
+}
