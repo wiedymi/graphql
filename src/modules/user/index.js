@@ -1,8 +1,8 @@
 import { GraphQLModule } from '@graphql-modules/core'
 import * as typeDefs from './schema.graphql'
-import resolvers from './resolvers'
+import * as resolvers from './resolvers'
 
-export const userModule = new GraphQLModule({
+export default new GraphQLModule({
   typeDefs,
   resolvers,
 })

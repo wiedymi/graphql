@@ -1,41 +1,13 @@
 import express from 'express'
-import { ApolloServer, gql } from 'apollo-server-express'
+import { ApolloServer } from 'apollo-server-express'
 import { initDB } from '@/core'
+import rootModule from '@/modules'
 
-const books = [
-  {
-    title: 'Harry Potter and the Chamber of Secrets',
-    author: 'J.K. Rowling',
-  },
-  {
-    title: 'Jurassic Park',
-    author: 'Michael Crichton',
-  },
-]
-
-const typeDefs = gql`
-  type Book {
-    title: String
-    author: String
-  }
-
-  type Query {
-    books: [Book]
-  }
-`
-
-const resolvers = {
-  Query: {
-    books: () => books,
-  },
-}
+const { schema, context } = rootModule
 
 const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  engine: {
-    apiKey: process.env.API_KEY,
-  },
+  schema,
+  context,
 })
 
 const app = express()
