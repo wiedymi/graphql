@@ -1,8 +1,12 @@
-const createUser = async (root, { id }) => {
-  return {
-    id,
-    username: 'jhon',
-  }
+import { userService } from '@/services'
+
+const createUser = async (root, { email, username, password }) => {
+  const createdUser = await userService.create({
+    email,
+    username,
+    password,
+  })
+  return createdUser
 }
 
 export const Mutation = {

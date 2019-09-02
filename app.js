@@ -1,6 +1,6 @@
 import express from 'express'
 import { ApolloServer } from 'apollo-server-express'
-import { initDB } from '@/core'
+import { initDB } from '@/lib'
 import rootModule from '@/modules'
 
 const { schema, context } = rootModule

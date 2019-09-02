@@ -1,8 +1,9 @@
-const user = async (root, { id }) => {
-  return {
-    _id: id,
-    username: 'jhon',
-  }
+import { userService } from '@/services'
+
+const user = async (root, { username }) => {
+  const user = await userService.get({ username })
+
+  return user
 }
 
 export const Query = {
