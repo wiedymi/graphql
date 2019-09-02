@@ -1,12 +1,15 @@
+import jwt from 'jsonwebtoken'
 import { jwtVerify } from '@/lib'
+import config from '@/config'
 
-const auth = req => {
+const auth = async req => {
   const Authorization = req.headers.authorization
   if (Authorization) {
     const token = Authorization.replace('Bearer ', '')
-    const decodedToken = jwtVerify(token)
+    const isVerified = jwtVerify(token)
 
-    if (decodedToken) {
+    if (isVerified) {
+      const decodedToken = await jwt.decode(token, config.JWT_SECRET)
       return { decodedToken }
     }
 
