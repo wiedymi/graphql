@@ -2,12 +2,14 @@ import express from 'express'
 import { ApolloServer } from 'apollo-server-express'
 import { initDB } from '@/lib'
 import rootModule from '@/modules'
-
-const { schema, context } = rootModule
+import { auth } from '@/passport'
+const { schema } = rootModule
 
 const server = new ApolloServer({
   schema,
-  context,
+  context: ({ req }) => {
+    return auth(req)
+  },
 })
 
 const app = express()
