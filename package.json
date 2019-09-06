@@ -15,6 +15,8 @@
     "express": "^4.17.1",
     "graphql": "^14.5.4",
     "graphql-import-node": "^0.0.4",
+    "graphql-middleware": "^4.0.1",
+    "graphql-shield": "^6.0.6",
     "jsonwebtoken": "^8.5.1",
     "module-alias": "^2.2.1",
     "mongoose": "^5.6.11",

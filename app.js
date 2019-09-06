@@ -1,15 +1,16 @@
 import express from 'express'
+const { applyMiddleware } = require('graphql-middleware')
 import { ApolloServer } from 'apollo-server-express'
 import { initDB } from '@/lib'
 import rootModule from '@/modules'
+import access from '@/access'
 import { auth } from '@/passport'
-const { schema } = rootModule
+
+const schema = applyMiddleware(rootModule.schema, auth, access)
 
 const server = new ApolloServer({
   schema,
-  context: ({ req }) => {
-    return auth(req)
-  },
+  context: ({ req }) => req,
 })
 
 const app = express()

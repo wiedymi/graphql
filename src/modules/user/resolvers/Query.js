@@ -1,8 +1,8 @@
 import { userService } from '@/services'
 
-const user = async (root, { username }, _, userId) => {
+const user = async (root, { username }, _, context) => {
   const user = await userService.get({ username })
-  console.log(userId)
+
   return user
 }
 

@@ -6,12 +6,9 @@ type User {
   username: String!
   password: String!
   email: String!
+  role: String!
 }
 
 type Mutation {
   createUser(email: String!, username: String!, password: String!): User
-}
-
-type feed {
-  test: String!
 }
