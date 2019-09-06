@@ -4,25 +4,24 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./index.js",
-    "addLocale": "node ./src/scripts/addLocale/index.js",
-    "db": "mongod --auth --dbpath=./mongo",
     "dev": "nodemon ./index.js"
   },
   "dependencies": {
-    "accesscontrol": "^2.2.1",
+    "@graphql-modules/core": "^0.7.10",
+    "apollo-server-express": "^2.9.1",
     "bcrypt": "^3.0.6",
-    "connect-mongo": "^3.0.0",
-    "dotenv": "^8.0.0",
+    "dotenv": "^8.1.0",
     "esm": "^3.2.25",
-    "graphql-yoga": "^1.18.3",
+    "express": "^4.17.1",
+    "graphql": "^14.5.4",
+    "graphql-import-node": "^0.0.4",
+    "graphql-middleware": "^4.0.1",
+    "graphql-shield": "^6.0.6",
     "jsonwebtoken": "^8.5.1",
     "module-alias": "^2.2.1",
-    "mongoose": "^5.6.9",
-    "morgan": "^1.9.1",
+    "mongoose": "^5.6.11",
     "nodemailer": "^6.3.0",
-    "passport": "^0.4.0",
-    "passport-jwt": "^4.0.0",
-    "passport-local": "^1.0.0"
+    "passport": "^0.4.0"
   },
   "devDependencies": {
     "eslint": "^6.1.0",
