@@ -17,7 +17,18 @@ export class Service {
 
     this.get = async (value, field, callback) => this.model.findOne(value, field, callback)
 
+    this.getById = async (value, field, callback) => this.model.findById(value, field, callback)
+
+    this.getByIdLean = async (value, field, callback) =>
+      this.model.findById(value, field, callback).lean()
+
+    this.getLean = async (value, field, callback) =>
+      this.model.findOne(value, field, callback).lean()
+
     this.getMany = async (value, field, callback) => this.model.find(value, field, callback)
+
+    this.getManyLean = async (value, field, callback) =>
+      this.model.find(value, field, callback).lean()
 
     this.getAll = async () => this.model.collection
 

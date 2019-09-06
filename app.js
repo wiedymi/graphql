@@ -1,5 +1,5 @@
 import express from 'express'
-const { applyMiddleware } = require('graphql-middleware')
+import { applyMiddleware } from 'graphql-middleware'
 import { ApolloServer } from 'apollo-server-express'
 import { initDB } from '@/lib'
 import rootModule from '@/modules'
@@ -10,6 +10,9 @@ const schema = applyMiddleware(rootModule.schema, auth, access)
 
 const server = new ApolloServer({
   schema,
+  typeDefs: rootModule.typeDefs,
+  resolvers: rootModule.resolvers,
+  introspection: true,
   context: ({ req }) => req,
 })
 

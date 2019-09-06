@@ -1,5 +1,7 @@
+/* eslint-disable require-atomic-updates */
 import jwt from 'jsonwebtoken'
 import { jwtVerify } from '@/lib'
+import { userService } from '@/services'
 import config from '@/config'
 
 const auth = async (resolve, root, args, context, info) => {
@@ -9,14 +11,17 @@ const auth = async (resolve, root, args, context, info) => {
     const isVerified = jwtVerify(token)
 
     if (isVerified) {
-      const decodedToken = await jwt.decode(token, config.JWT_SECRET)
+      const { id } = await jwt.decode(token, config.JWT_SECRET)
+      const user = await userService.getById(id)
+      if (user) {
+        context.user = {
+          role: user.role,
+        }
 
-      context.user = {
-        role: 'ADMIN',
+        return resolve(root, args, context, info)
       }
-
-      return resolve(root, args, context, info)
     }
+
     context.user = {
       role: 'GUEST',
     }

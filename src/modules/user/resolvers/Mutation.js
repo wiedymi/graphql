@@ -6,6 +6,7 @@ const createUser = async (root, { email, username, password }) => {
     username,
     password,
   })
+
   return createdUser
 }
 

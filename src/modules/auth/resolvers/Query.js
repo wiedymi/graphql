@@ -1,11 +1,11 @@
 import { userService } from '@/services'
 
-const user = async (root, { username }) => {
+const login = async (root, { username, password }) => {
   const user = await userService.get({ username })
 
   return user
 }
 
 export const Query = {
-  user,
+  login,
 }

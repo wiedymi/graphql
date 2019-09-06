@@ -1,6 +1,9 @@
 import { Schema, model } from 'mongoose'
 import bcrypt from 'bcrypt'
 import config from '@/config'
+import { ROLES } from '@/constants'
+
+const { REGISTERED } = ROLES
 
 const UserSchema = new Schema(
   {
@@ -18,6 +21,10 @@ const UserSchema = new Schema(
       type: String,
       required: true,
     },
+    role: {
+      type: String,
+      default: REGISTERED,
+    },
   },
   { collection: 'users' },
 )
@@ -26,7 +33,9 @@ const userPreCallback = function(next) {
   const user = this
 
   return bcrypt.hash(user.password, +config.BCRYPT_SALT, function(err, hash) {
-    if (err) return next(err)
+    if (err) {
+      return next(err)
+    }
 
     user.password = hash
 
