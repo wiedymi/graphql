@@ -1,17 +1,23 @@
 import express from 'express'
+import ConstraintDirective from 'graphql-constraint-directive'
 import { applyMiddleware } from 'graphql-middleware'
+import { makeExecutableSchema } from 'graphql-tools'
 import { ApolloServer } from 'apollo-server-express'
 import { initDB } from '@/lib'
 import rootModule from '@/modules'
 import access from '@/access'
 import { auth } from '@/passport'
 
-const schema = applyMiddleware(rootModule.schema, auth, access)
+const executableSchema = makeExecutableSchema({
+  typeDefs: rootModule.typeDefs,
+  resolvers: rootModule.resolvers,
+  schemaDirectives: { constraint: ConstraintDirective },
+})
+
+const schema = applyMiddleware(executableSchema, auth, access)
 
 const server = new ApolloServer({
   schema,
-  typeDefs: rootModule.typeDefs,
-  resolvers: rootModule.resolvers,
   introspection: true,
   context: ({ req }) => req,
 })

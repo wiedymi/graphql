@@ -5,10 +5,14 @@ type Query {
 type User {
   username: String!
   password: String!
-  email: String!
+  email: String! @constraint(format: "email", maxLength: 255)
   role: String!
 }
 
 type Mutation {
-  createUser(email: String!, username: String!, password: String!): User
+  createUser(
+    email: String! @constraint(format: "email", maxLength: 255)
+    username: String!
+    password: String! @constraint(minLength: 5)
+  ): User
 }
