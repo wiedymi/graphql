@@ -20,7 +20,9 @@ directive @constraint(
   exclusiveMax: Int
   multipleOf: Int
 ) on FIELD_DEFINITION | ARGUMENT_DEFINITION
+scalar ConstraintString
 
+scalar ConstraintNumber
 `
 
 export default new GraphQLModule({ name: 'app', typeDefs, imports: [userModule, authModule] })
