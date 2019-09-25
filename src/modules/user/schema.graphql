@@ -1,3 +1,5 @@
+scalar Upload
+
 type Query {
   user(username: String!): User
 }
@@ -12,4 +14,16 @@ type User {
 
 type Mutation {
   createUser(email: String!, username: String!, password: String!): User
+  upload(file: Upload!): File!
+  uploadMany(files: [Upload!]!): [File!]!
+}
+
+type File {
+  filename: String!
+  mimetype: String!
+  encoding: String!
+}
+
+type Query {
+  uploads: [File]
 }
