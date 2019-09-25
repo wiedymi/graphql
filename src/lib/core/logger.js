@@ -1,5 +1,5 @@
 import winston from 'winston'
-import LOGGERS from '@/constants'
+import { LOGGERS } from '@/constants'
 
 const { FILES, COLORS, INFO, ERROR, DEBUG } = LOGGERS
 
@@ -70,6 +70,8 @@ const Logger = {
       infologger.info(message)
     },
   },
+  combined:
+    ':remote-addr :remote-user ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"',
 }
 
 export { Logger }

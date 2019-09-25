@@ -1,28 +1,35 @@
-import cors from 'cors'
 import { GraphQLServer } from 'graphql-yoga'
-import { initDB } from '@/lib'
+import { initDB, Logger } from '@/lib'
 import { auth } from '@/passport'
 import config from '@/config'
 import { CORS as corsOptions } from '@/constants'
 import rootModule from '@/modules'
 import access from '@/access'
 
+const morgan = require('morgan')
+
 const { schema } = rootModule
 
-const server = new GraphQLServer({
+const application = new GraphQLServer({
   schema,
   middlewares: [auth, access],
   context: context => context,
 })
 
 const port = config.PORT || 4000
+const { combined, stream } = Logger
 const options = {
+  cors: corsOptions,
   port,
+  endpoint: '/graphql',
+  subscriptions: '/subscriptions',
+  playground: '/playground',
 }
 
-server.use(cors(corsOptions))
+application.use(morgan(combined, { stream }))
 
-server.start(options, () => {
+application.start(options, () => {
   initDB()
+  process.setMaxListeners(0)
   console.log(`Server is running on http://localhost:${port}`)
 })
