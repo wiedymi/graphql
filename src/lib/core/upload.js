@@ -14,6 +14,10 @@ export const staticFiles = async (req, res) => {
   return res.sendFile(path)
 }
 
+const createPath = (prefix, id, extra, extension) => {
+  return `${process.cwd()}/uploads/${prefix}${id}.${extra ? extra + '.' : ''}${extension}`
+}
+
 const fileHandler = async (raw, opts) => {
   const file = await raw.then(data => data)
   const stream = file.createReadStream()
@@ -25,9 +29,9 @@ const fileHandler = async (raw, opts) => {
 
   const id = uuid()
   const prefix = opts.prefix || ''
-  const path = `${process.cwd()}/uploads/${prefix}${id}.${extension}`
-  const smallPath = `${process.cwd()}/uploads/${prefix}${id}.small.${extension}`
-  const tinyPath = `${process.cwd()}/uploads/${prefix}${id}.tiny.${extension}`
+  const path = createPath(prefix, id, null, extension)
+  const smallPath = createPath(prefix, id, 'small', extension)
+  const tinyPath = createPath(prefix, id, 'tiny', extension)
 
   if (!fs.existsSync(path)) {
     fs.mkdirSync(`${process.cwd()}/uploads/${prefix}`, { recursive: true })
