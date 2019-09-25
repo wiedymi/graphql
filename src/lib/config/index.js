@@ -2,4 +2,6 @@ import dotenv from 'dotenv'
 
 const result = dotenv.config()
 
-export default result.parsed
+const config = result.parsed
+
+export { config }

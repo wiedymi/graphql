@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import config from '@/config'
+import { config } from '@/lib'
 
 const login = async (root, { username, password }, { db }) => {
   const user = await db.get({ username })

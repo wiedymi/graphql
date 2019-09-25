@@ -13,7 +13,7 @@ export const staticFiles = async (req, res) => {
   return res.sendFile(path)
 }
 
-export const singleUpload = (file, opts = { whiteList }) => {
+export const singleUpload = async (file, opts = { whiteList }) => {
   return file.then(file => {
     const stream = file.createReadStream()
     const extension = file.mimetype.split('/')[1]

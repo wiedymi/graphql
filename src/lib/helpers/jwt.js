@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import config from '@/config'
+import { config } from '@/lib'
 const { JWT_SECRET } = config
 
 export const jwtVerify = token => {
