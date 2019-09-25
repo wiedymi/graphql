@@ -21,9 +21,6 @@ const { combined, stream } = Logger
 const options = {
   cors: corsOptions,
   port,
-  endpoint: '/graphql',
-  subscriptions: '/subscriptions',
-  playground: '/playground',
 }
 
 application.use(morgan(combined, { stream }))
@@ -33,3 +30,5 @@ application.start(options, () => {
   process.setMaxListeners(0)
   console.log(`Server is running on http://localhost:${port}`)
 })
+
+process.on('SIGINT', () => process.exit())
