@@ -1,5 +1,5 @@
 import { GraphQLServer } from 'graphql-yoga'
-import { initDB, Logger } from '@/lib'
+import { initDB, Logger, staticFiles } from '@/lib'
 import { auth } from '@/passport'
 import config from '@/config'
 import { CORS as corsOptions } from '@/constants'
@@ -24,6 +24,7 @@ const options = {
 }
 
 application.use(morgan(combined, { stream }))
+application.use('/uploads/:file', staticFiles)
 
 application.start(options, () => {
   initDB()

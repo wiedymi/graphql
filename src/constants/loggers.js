@@ -3,9 +3,9 @@ const DEBUG = 'debug'
 const ERROR = 'error'
 
 const FILES = {
-  [INFO]: 'logs',
-  [DEBUG]: 'logs',
-  [ERROR]: 'logs',
+  [INFO]: 'info',
+  [DEBUG]: 'debug',
+  [ERROR]: 'error',
 }
 
 const COLORS = {
