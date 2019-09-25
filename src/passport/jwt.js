@@ -4,7 +4,7 @@ import { jwtVerify } from '@/lib'
 import { userService } from '@/services'
 import config from '@/config'
 
-const auth = async (resolve, root, args, context, info) => {
+const auth = async (resolve, root, args, { request: context }, info) => {
   const Authorization = context.get('Authorization')
   if (Authorization) {
     const token = Authorization.replace('Bearer ', '')
