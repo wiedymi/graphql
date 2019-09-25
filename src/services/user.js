@@ -1,7 +1,6 @@
 import { Schema, model } from 'mongoose'
 import bcrypt from 'bcrypt'
-import config from '@/config'
-import { Service } from '@/lib'
+import { Service, config } from '@/lib'
 import { ROLES } from '@/constants'
 
 const { REGISTERED } = ROLES

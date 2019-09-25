@@ -1,8 +1,7 @@
 /* eslint-disable require-atomic-updates */
 import jwt from 'jsonwebtoken'
-import { jwtVerify } from '@/lib'
+import { jwtVerify, config } from '@/lib'
 import { userService } from '@/services'
-import config from '@/config'
 
 const auth = async (resolve, root, args, { request: context }, info) => {
   const Authorization = context.get('Authorization')

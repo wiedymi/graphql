@@ -1,4 +1,4 @@
-import config from '@/config'
+import { config } from '@/lib'
 
 const { MONGO_DB_URL, MONGO_DB_USER, MONGO_DB_PASSWORD } = config
 

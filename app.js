@@ -1,7 +1,6 @@
 import { GraphQLServer } from 'graphql-yoga'
-import { initDB, Logger, staticFiles } from '@/lib'
+import { initDB, Logger, staticFiles, config } from '@/lib'
 import { auth } from '@/passport'
-import config from '@/config'
 import { CORS as corsOptions } from '@/constants'
 import rootModule from '@/modules'
 import access from '@/access'
