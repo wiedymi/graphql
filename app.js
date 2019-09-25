@@ -1,25 +1,35 @@
-import express from 'express'
-import { applyMiddleware } from 'graphql-middleware'
-import { ApolloServer } from 'apollo-server-express'
-import { initDB } from '@/lib'
+import { GraphQLServer } from 'graphql-yoga'
+import { initDB, Logger, staticFiles } from '@/lib'
+import { auth } from '@/passport'
+import config from '@/config'
+import { CORS as corsOptions } from '@/constants'
 import rootModule from '@/modules'
 import access from '@/access'
-import { auth } from '@/passport'
 
-const schema = applyMiddleware(rootModule.schema, auth, access)
+const morgan = require('morgan')
 
-const server = new ApolloServer({
+const { schema } = rootModule
+
+const application = new GraphQLServer({
   schema,
-  typeDefs: rootModule.typeDefs,
-  resolvers: rootModule.resolvers,
-  introspection: true,
-  context: ({ req }) => req,
+  middlewares: [auth, access],
+  context: context => context,
 })
 
-const app = express()
-server.applyMiddleware({ app })
+const port = config.PORT || 4000
+const { combined, stream } = Logger
+const options = {
+  cors: corsOptions,
+  port,
+}
 
-app.listen({ port: 4000 }, () => {
+application.use(morgan(combined, { stream }))
+application.use('/uploads/:file', staticFiles)
+
+application.start(options, () => {
   initDB()
-  console.log(`🚀  Server ready at http://localhost:4000${server.graphqlPath}`)
+  process.setMaxListeners(0)
+  console.log(`Server is running on http://localhost:${port}`)
 })
+
+process.on('SIGINT', () => process.exit())

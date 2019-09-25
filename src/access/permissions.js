@@ -3,14 +3,19 @@ import { ROLES } from '@/constants'
 
 const { GUEST, ADMIN } = ROLES
 
-export const isAuthenticated = rule({ cache: 'contextual' })(async (parent, args, ctx) => {
-  return ctx.user.role !== GUEST
-})
+const createRole = ROLE => {
+  return rule({ cache: 'contextual' })(async (parent, args, ctx) => {
+    return ctx.user.role !== ROLE
+  })
+}
 
-export const isAdmin = rule({ cache: 'contextual' })(async (parent, args, ctx) => {
-  return ctx.user.role === ADMIN
-})
+const createRoleNot = ROLE => {
+  return rule({ cache: 'contextual' })(async (parent, args, ctx) => {
+    return ctx.user.role !== ROLE
+  })
+}
 
-export const isGuest = rule({ cache: 'contextual' })(async (parent, args, ctx) => {
-  return ctx.user.role === GUEST
-})
+export const isAuthenticated = createRoleNot(GUEST)
+
+export const isAdmin = createRole(ADMIN)
+export const isGuest = createRole(GUEST)

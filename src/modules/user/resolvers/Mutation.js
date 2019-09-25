@@ -1,7 +1,5 @@
-import { userService } from '@/services'
-
-const createUser = async (root, { email, username, password }) => {
-  const createdUser = await userService.create({
+const createUser = async (root, { email, username, password }, { db }) => {
+  const createdUser = await db.create({
     email,
     username,
     password,

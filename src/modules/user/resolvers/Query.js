@@ -1,7 +1,5 @@
-import { userService } from '@/services'
-
-const user = async (root, { username }) => {
-  const user = await userService.get({ username })
+const user = async (root, { username }, { db }) => {
+  const user = await db.get({ username })
 
   return user
 }
