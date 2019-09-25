@@ -6,6 +6,7 @@ import config from '@/config'
 
 const auth = async (resolve, root, args, { request: context }, info) => {
   const Authorization = context.get('Authorization')
+
   if (Authorization) {
     const token = Authorization.replace('Bearer ', '')
     const isVerified = jwtVerify(token)
