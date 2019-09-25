@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose'
 import bcrypt from 'bcrypt'
+import uuid from 'uuid'
 import { Service, config } from '@/lib'
 import { ROLES } from '@/constants'
 
@@ -7,6 +8,14 @@ const { REGISTERED } = ROLES
 
 const UserSchema = new Schema(
   {
+    id: {
+      type: String,
+      required: true,
+      unique: true,
+      default: () => {
+        return uuid()
+      },
+    },
     email: {
       type: String,
       required: true,

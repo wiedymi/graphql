@@ -5,7 +5,7 @@ const { GUEST, ADMIN } = ROLES
 
 const createRole = ROLE => {
   return rule({ cache: 'contextual' })(async (parent, args, ctx) => {
-    return ctx.user.role !== ROLE
+    return ctx.user.role === ROLE
   })
 }
 
