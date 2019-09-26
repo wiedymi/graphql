@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 import { jwtVerify, config } from '@/lib'
 import { userService } from '@/services'
 
-const auth = async (resolve, root, args, { request: context }, info) => {
+const auth = async (resolve, root, args, context, info) => {
   const Authorization = context.get('Authorization')
 
   if (Authorization) {

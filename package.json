@@ -8,9 +8,13 @@
   },
   "dependencies": {
     "@graphql-modules/core": "^0.7.10",
+    "apollo-engine": "^1.1.2",
+    "apollo-server": "^2.9.4",
+    "apollo-server-express": "^2.9.4",
     "bcrypt": "^3.0.6",
     "dotenv": "^8.1.0",
     "esm": "^3.2.25",
+    "express": "^4.17.1",
     "graphql": "^14.5.4",
     "graphql-import-node": "^0.0.4",
     "graphql-shield": "^6.0.6",
