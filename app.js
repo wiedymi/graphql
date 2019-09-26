@@ -1,34 +1,30 @@
-import { GraphQLServer } from 'graphql-yoga'
-import { initDB, Logger, staticFiles, config } from '@/lib'
+import { ApolloServer, config } from '@/lib'
 import { auth } from '@/passport'
-import { CORS as corsOptions } from '@/constants'
+import { CORS as cors } from '@/constants'
 import rootModule from '@/modules'
 import access from '@/access'
 
-const morgan = require('morgan')
-
+const middlewares = [auth, access]
 const { schema } = rootModule
 
-const application = new GraphQLServer({
+const application = ApolloServer({
+  cors,
   schema,
-  middlewares: [auth, access],
-  context: context => context,
+  middlewares,
+  introspection: true,
+  context: ({ req }) => req,
+  trace: true,
+  debug: true,
+  engine: {
+    apiKey: config.ENGINE_API_KEY,
+    schemaTag: 'development',
+  },
 })
 
 const port = config.PORT || 4000
-const { combined, stream } = Logger
-const options = {
-  cors: corsOptions,
-  port,
-}
+application.listen({ port }, '0.0.0.0')
 
-application.use(morgan(combined, { stream }))
-application.use('/uploads/:file', staticFiles)
+console.log(`🚀  Server ready at http://localhost:${port}/`)
 
-application.start(options, () => {
-  initDB()
-  process.setMaxListeners(0)
-  console.log(`Server is running on http://localhost:${port}`)
-})
-
+process.setMaxListeners(0)
 process.on('SIGINT', () => process.exit())
