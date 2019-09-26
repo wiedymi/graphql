@@ -14,7 +14,9 @@ const ApolloServer = opts => {
     schema: applyMiddleware(schema, ...middlewares),
   })
 
-  apollo.applyMiddleware({ app })
+  const path = '/graphql'
+
+  apollo.applyMiddleware({ app, path })
 
   apollo.use = (...params) => {
     return app.use(...params)
@@ -24,6 +26,8 @@ const ApolloServer = opts => {
     initDB()
     return app.listen(...params)
   }
+
+  apollo.path = apollo.graphqlPath
 
   const { combined, stream } = Logger
 
