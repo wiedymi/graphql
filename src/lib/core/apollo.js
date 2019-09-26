@@ -1,7 +1,8 @@
+import http from 'http'
 import express from 'express'
-import { Logger, staticFiles, initDB } from '@/lib'
-import { ApolloServer as Apollo } from 'apollo-server-express'
 import { applyMiddleware } from 'graphql-middleware'
+import { ApolloServer as Apollo } from 'apollo-server-express'
+import { Logger, staticFiles, initDB } from '@/lib'
 
 const morgan = require('morgan')
 const app = express()
@@ -18,16 +19,20 @@ const ApolloServer = opts => {
 
   apollo.applyMiddleware({ app, path })
 
+  const server = http.createServer(app)
+  apollo.installSubscriptionHandlers(server)
+
   apollo.use = (...params) => {
     return app.use(...params)
   }
 
   apollo.listen = (...params) => {
     initDB()
-    return app.listen(...params)
+    return server.listen(...params)
   }
 
   apollo.path = apollo.graphqlPath
+  apollo.subscriptions = apollo.subscriptionsPath
 
   const { combined, stream } = Logger
 
