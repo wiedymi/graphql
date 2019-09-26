@@ -1,11 +1,11 @@
 import { ApolloServer, config } from '@/lib'
-import { auth } from '@/passport'
 import { CORS as cors } from '@/constants'
-import rootModule from '@/modules'
+import { auth } from '@/passport'
+import modules from '@/modules'
 import access from '@/access'
 
 const middlewares = [auth, access]
-const { schema } = rootModule
+const { schema } = modules
 
 const application = ApolloServer({
   cors,
@@ -17,14 +17,14 @@ const application = ApolloServer({
   debug: true,
   engine: {
     apiKey: config.ENGINE_API_KEY,
-    schemaTag: 'development',
+    schemaTag: 'production',
   },
 })
 
 const port = config.PORT || 4000
 application.listen({ port }, '0.0.0.0')
 
-console.log(`🚀  Server ready at http://localhost:${port}/`)
+console.log(`🚀  Server ready at http://localhost:${port + application.path}`)
 
 process.setMaxListeners(0)
 process.on('SIGINT', () => process.exit())
