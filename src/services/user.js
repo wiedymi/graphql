@@ -1,7 +1,7 @@
-import { Schema, model } from 'mongoose'
-import bcrypt from 'bcrypt'
 import uuid from 'uuid'
-import { Service, config } from '@/lib'
+import bcrypt from 'bcrypt'
+import { Schema } from 'mongoose'
+import { createService, config } from '@/lib'
 import { ROLES } from '@/constants'
 
 const { REGISTERED } = ROLES
@@ -55,6 +55,4 @@ const userPreCallback = function(next) {
 UserSchema.pre('save', userPreCallback)
 UserSchema.pre('update', userPreCallback)
 
-const userModel = model('User', UserSchema)
-
-export const userService = new Service(userModel)
+export const userService = createService('User', UserSchema)

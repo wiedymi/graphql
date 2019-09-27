@@ -1,13 +1,39 @@
+import http from 'http'
 import express from 'express'
-import { Logger, staticFiles, initDB } from '@/lib'
-import { ApolloServer as Apollo } from 'apollo-server-express'
 import { applyMiddleware } from 'graphql-middleware'
+import { ApolloServer as Apollo } from 'apollo-server-express'
+import { Logger, staticFiles, initDB } from '@/lib'
+import { CORS as cors } from '@/constants'
 
 const morgan = require('morgan')
 const app = express()
 
+const defaultSetting = {
+  cors,
+  middlewares: [],
+  introspection: true,
+  context: ({ req, connection }) => {
+    if (connection) {
+      return connection.context.request
+    }
+
+    return req
+  },
+  trace: true,
+  debug: true,
+  subscriptions: {
+    onConnect: (connectionParams, webSocket, context) => {
+      return context
+    },
+  },
+}
+
 const ApolloServer = opts => {
-  const { schema, middlewares, ...options } = opts
+  const settings = {
+    ...defaultSetting,
+    ...opts,
+  }
+  const { schema, middlewares, ...options } = settings
 
   const apollo = new Apollo({
     ...options,
@@ -18,16 +44,20 @@ const ApolloServer = opts => {
 
   apollo.applyMiddleware({ app, path })
 
+  const server = http.createServer(app)
+  apollo.installSubscriptionHandlers(server)
+
   apollo.use = (...params) => {
     return app.use(...params)
   }
 
   apollo.listen = (...params) => {
     initDB()
-    return app.listen(...params)
+    return server.listen(...params)
   }
 
   apollo.path = apollo.graphqlPath
+  apollo.subscriptions = apollo.subscriptionsPath
 
   const { combined, stream } = Logger
 

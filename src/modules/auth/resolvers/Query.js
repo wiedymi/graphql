@@ -17,7 +17,7 @@ const login = async (root, { username, password }, { db }) => {
     return { ...user.toObject(), token }
   }
 
-  return user
+  throw new Error('Incorrect username or password')
 }
 
 export const Query = {
