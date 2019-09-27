@@ -1,10 +1,17 @@
 /* eslint-disable require-atomic-updates */
 import jwt from 'jsonwebtoken'
+import { ROLES } from '@/constants'
 import { jwtVerify, config } from '@/lib'
 import { userService } from '@/services'
 
+const { GUEST } = ROLES
+
 const auth = async (resolve, root, args, context, info) => {
   const Authorization = context.headers.authorization || false
+
+  context.user = {
+    role: GUEST,
+  }
 
   if (Authorization) {
     const token = Authorization.replace('Bearer ', '')
@@ -22,14 +29,7 @@ const auth = async (resolve, root, args, context, info) => {
       }
     }
 
-    context.user = {
-      role: 'GUEST',
-    }
-
     return resolve(root, args, context, info)
-  }
-  context.user = {
-    role: 'GUEST',
   }
 
   return resolve(root, args, context, info)

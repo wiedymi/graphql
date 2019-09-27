@@ -1,6 +1,6 @@
 import uuid from 'uuid'
-import { Schema, model } from 'mongoose'
-import { Service } from '@/lib'
+import { Schema } from 'mongoose'
+import { createService } from '@/lib'
 
 const UploadSchema = new Schema(
   {
@@ -27,6 +27,4 @@ const UploadSchema = new Schema(
   { collection: 'uploads' },
 )
 
-const uploadModel = model('Upload', UploadSchema)
-
-export const uploadService = new Service(uploadModel)
+export const uploadService = createService('Upload', UploadSchema)

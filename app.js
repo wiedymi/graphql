@@ -1,5 +1,4 @@
 import { ApolloServer, config } from '@/lib'
-import { CORS as cors } from '@/constants'
 import { auth } from '@/passport'
 import modules from '@/modules'
 import access from '@/access'
@@ -8,7 +7,6 @@ const middlewares = [auth, access]
 const { schema } = modules
 
 const application = ApolloServer({
-  cors,
   schema,
   middlewares,
   engine: {

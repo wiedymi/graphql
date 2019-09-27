@@ -3,10 +3,13 @@ import express from 'express'
 import { applyMiddleware } from 'graphql-middleware'
 import { ApolloServer as Apollo } from 'apollo-server-express'
 import { Logger, staticFiles, initDB } from '@/lib'
+import { CORS as cors } from '@/constants'
 
 const morgan = require('morgan')
 const app = express()
+
 const defaultSetting = {
+  cors,
   middlewares: [],
   introspection: true,
   context: ({ req, connection }) => {
