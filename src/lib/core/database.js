@@ -1,5 +1,4 @@
 import mongoose from 'mongoose'
-
 import { DATABASE } from '@/constants'
 
 const { URL, OPTIONS } = DATABASE

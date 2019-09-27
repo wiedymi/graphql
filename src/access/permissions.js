@@ -1,17 +1,8 @@
-import { rule } from 'graphql-shield'
+/* eslint-disable no-unused-vars */
 import { ROLES } from '@/constants'
+import { createRole } from '@/lib'
 
 const { GUEST, ADMIN } = ROLES
-
-const createRole = (role, equel) => {
-  return rule({ cache: 'contextual' })(async (parent, args, ctx) => {
-    if (equel) {
-      return false
-    }
-
-    return ctx.user.role === role
-  })
-}
 
 export const isAuthenticated = createRole(GUEST, GUEST)
 
