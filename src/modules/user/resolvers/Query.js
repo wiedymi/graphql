@@ -1,4 +1,3 @@
-import { validator } from 'graphql-validation'
 import { userValidator } from './validators'
 
 const user = async (root, { username }, { db, validationErrors }) => {
@@ -11,6 +10,13 @@ const user = async (root, { username }, { db, validationErrors }) => {
   return user
 }
 
+const users = async (root, args, { db }) => {
+  const users = await db.getMany({})
+
+  return users
+}
+
 export const Query = {
-  user: validator(userValidator, user),
+  user: userValidator(user),
+  users,
 }
