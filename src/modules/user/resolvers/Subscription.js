@@ -1,8 +1,12 @@
 const users = {
-  resolve: (payload, args, context, info) => {
+  resolve: payload => {
     return payload.users
   },
-  subscribe: (_, __, { pubsub, USERS }) => pubsub.asyncIterator(USERS),
+  subscribe: (_, __, { pubsub, subscriptions }) => {
+    const { REGISTERED_USER } = subscriptions
+
+    return pubsub.asyncIterator(REGISTERED_USER)
+  },
 }
 
 export const Subscription = {
