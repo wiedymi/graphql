@@ -11,16 +11,9 @@ const application = ApolloServer({
   cors,
   schema,
   middlewares,
-  introspection: true,
-  context: ({ req }) => req,
-  trace: true,
-  debug: true,
   engine: {
     apiKey: config.ENGINE_API_KEY,
     schemaTag: 'production',
-  },
-  formatError: err => {
-    return { ...err, message: JSON.parse(err.message) }
   },
 })
 

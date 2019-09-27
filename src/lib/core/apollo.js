@@ -6,9 +6,31 @@ import { Logger, staticFiles, initDB } from '@/lib'
 
 const morgan = require('morgan')
 const app = express()
+const defaultSetting = {
+  middlewares: [],
+  introspection: true,
+  context: ({ req, connection }) => {
+    if (connection) {
+      return connection.context.request
+    }
+
+    return req
+  },
+  trace: true,
+  debug: true,
+  subscriptions: {
+    onConnect: (connectionParams, webSocket, context) => {
+      return context
+    },
+  },
+}
 
 const ApolloServer = opts => {
-  const { schema, middlewares, ...options } = opts
+  const settings = {
+    ...defaultSetting,
+    ...opts,
+  }
+  const { schema, middlewares, ...options } = settings
 
   const apollo = new Apollo({
     ...options,
