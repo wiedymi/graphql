@@ -54,9 +54,15 @@ const fileHandler = async (raw, opts) => {
       .write(tinyPath)
   })
 
-  stream.pipe(fs.createWriteStream(path))
-
-  return file
+  return {
+    id,
+    size: {
+      tiny: tinyPath,
+      small: smallPath,
+      larger: path,
+    },
+    extension,
+  }
 }
 
 export const singleUpload = async (file, opts = { whiteList }) => {

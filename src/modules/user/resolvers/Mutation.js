@@ -1,5 +1,8 @@
-const createUser = async (root, { email, username, password }, { db, pubsub, subscriptions }) => {
+const createUser = async (root, args, context) => {
+  const { email, username, password } = args
+  const { db, pubsub, subscriptions, mail } = context
   const { REGISTERED_USER } = subscriptions
+  const { sendEmail, EMAIL_VERIFICATION } = mail
 
   const createdUser = await db.create({
     email,
@@ -10,6 +13,8 @@ const createUser = async (root, { email, username, password }, { db, pubsub, sub
   pubsub.publish(REGISTERED_USER, {
     users: createdUser,
   })
+
+  sendEmail(EMAIL_VERIFICATION, { email })
 
   return createdUser
 }
