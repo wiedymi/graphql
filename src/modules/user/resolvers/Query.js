@@ -19,4 +19,5 @@ const users = async (root, args, { db }) => {
 export const Query = {
   user: userValidator(user),
   users,
+  hello: () => 'Hello',
 }

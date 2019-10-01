@@ -1,13 +1,16 @@
+directive @upper on FIELD_DEFINITION
+
 type Query {
   user(username: String!): User
   users: [User!]!
+  hello: String @upper
 }
 
 type User {
   id: String!
   username: String!
   password: String!
-  email: String!
+  email: String! @deprecated(reason: "Not alloweds")
   role: String!
   token: String!
 }

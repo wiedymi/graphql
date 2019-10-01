@@ -11,6 +11,7 @@ const app = express()
 const defaultSetting = {
   cors,
   middlewares: [],
+  directives: [],
   introspection: true,
   context: ({ req, connection }) => {
     if (connection) {
@@ -33,11 +34,18 @@ const ApolloServer = opts => {
     ...defaultSetting,
     ...opts,
   }
-  const { schema, middlewares, ...options } = settings
+  const { schema, middlewares, directives, ...options } = settings
+
+  const schemaDirectives = Object.entries(directives).map(directive => {
+    return {
+      [directive[0]]: directive[1],
+    }
+  })
 
   const apollo = new Apollo({
     ...options,
     schema: applyMiddleware(schema, ...middlewares),
+    schemaDirectives,
   })
 
   const path = '/graphql'
