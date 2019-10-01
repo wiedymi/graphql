@@ -1,13 +1,19 @@
-import { ApolloServer, config } from '@/lib'
+import { ApolloServer, config, DIRECTIVES } from '@/lib'
 import { auth } from '@/passport'
 import modules from '@/modules'
 import access from '@/access'
 
+const { UpperDirective } = DIRECTIVES
+
 const middlewares = [auth, access]
 const { schema } = modules
+const directives = {
+  upper: UpperDirective(schema),
+}
 
 const application = ApolloServer({
   schema,
+  directives,
   middlewares,
   engine: {
     apiKey: config.ENGINE_API_KEY,

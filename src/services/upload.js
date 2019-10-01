@@ -2,7 +2,7 @@ import uuid from 'uuid'
 import { Schema } from 'mongoose'
 import { createService } from '@/lib'
 
-const UploadSchema = new Schema(
+const uploadSchema = new Schema(
   {
     id: {
       type: String,
@@ -27,4 +27,4 @@ const UploadSchema = new Schema(
   { collection: 'uploads' },
 )
 
-export const uploadService = createService('Upload', UploadSchema)
+export const uploadService = createService('Upload', uploadSchema)

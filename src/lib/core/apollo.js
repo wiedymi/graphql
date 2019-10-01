@@ -2,7 +2,7 @@ import http from 'http'
 import express from 'express'
 import { applyMiddleware } from 'graphql-middleware'
 import { ApolloServer as Apollo } from 'apollo-server-express'
-import { Logger, staticFiles, initDB } from '@/lib'
+import { Logger, initDB } from '@/lib'
 import { CORS as cors } from '@/constants'
 
 const morgan = require('morgan')
@@ -11,6 +11,7 @@ const app = express()
 const defaultSetting = {
   cors,
   middlewares: [],
+  directives: [],
   introspection: true,
   context: ({ req, connection }) => {
     if (connection) {
@@ -33,11 +34,18 @@ const ApolloServer = opts => {
     ...defaultSetting,
     ...opts,
   }
-  const { schema, middlewares, ...options } = settings
+  const { schema, middlewares, directives, ...options } = settings
+
+  const schemaDirectives = Object.entries(directives).map(directive => {
+    return {
+      [directive[0]]: directive[1],
+    }
+  })
 
   const apollo = new Apollo({
     ...options,
     schema: applyMiddleware(schema, ...middlewares),
+    schemaDirectives,
   })
 
   const path = '/graphql'
@@ -61,7 +69,9 @@ const ApolloServer = opts => {
 
   const { combined, stream } = Logger
 
-  apollo.use('/uploads/:file', staticFiles)
+  apollo.use('/uploads/', express.static('uploads'))
+  apollo.use('/', express.static('public'))
+
   apollo.use(morgan(combined, { stream }))
 
   return apollo

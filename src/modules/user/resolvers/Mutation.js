@@ -4,6 +4,12 @@ const createUser = async (root, args, context) => {
   const { REGISTERED_USER } = subscriptions
   const { sendEmail, EMAIL_VERIFICATION } = mail
 
+  const isExist = await db.get({ email })
+
+  if (isExist) {
+    throw new Error('The email is used already')
+  }
+
   const createdUser = await db.create({
     email,
     username,
