@@ -6,7 +6,11 @@ const createDirective = (schema, resolver) => {
 }
 
 export const getDirectives = schema => {
-  return directives.map(({ name, resolver }) => ({
-    [name]: createDirective(schema, { [name]: resolver }),
-  }))
+  return directives.map(({ name, resolver }) => {
+    const res = { [name]: resolver }
+
+    return {
+      [name]: createDirective(schema, res),
+    }
+  })
 }

@@ -1,10 +1,9 @@
 import { ApolloServer, config, getDirectives } from '@/lib'
 import { auth } from '@/passport'
-import modules from '@/modules'
+import schema from '@/modules'
 import access from '@/access'
 
 const middlewares = [auth, access]
-const { schema } = modules
 const directives = getDirectives(schema)
 
 const application = ApolloServer({
