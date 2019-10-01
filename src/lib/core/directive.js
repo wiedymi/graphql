@@ -1,5 +1,12 @@
 import { addDirectiveResolveFunctionsToSchema } from 'graphql-directive'
+import { directives } from '../directives'
 
-export const createDirective = resolver => {
-  return schema => addDirectiveResolveFunctionsToSchema(schema, resolver)
+const createDirective = (schema, resolver) => {
+  return addDirectiveResolveFunctionsToSchema(schema, resolver)
+}
+
+export const getDirectives = schema => {
+  return directives.map(({ name, resolver }) => ({
+    [name]: createDirective(schema, { [name]: resolver }),
+  }))
 }

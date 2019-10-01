@@ -1,15 +1,11 @@
-import { ApolloServer, config, DIRECTIVES } from '@/lib'
+import { ApolloServer, config, getDirectives } from '@/lib'
 import { auth } from '@/passport'
 import modules from '@/modules'
 import access from '@/access'
 
-const { UpperDirective } = DIRECTIVES
-
 const middlewares = [auth, access]
 const { schema } = modules
-const directives = {
-  upper: UpperDirective(schema),
-}
+const directives = getDirectives(schema)
 
 const application = ApolloServer({
   schema,
