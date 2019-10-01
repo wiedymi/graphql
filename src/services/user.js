@@ -6,7 +6,7 @@ import { ROLES } from '@/constants'
 
 const { REGISTERED } = ROLES
 
-const UserSchema = new Schema(
+const userSchema = new Schema(
   {
     id: {
       type: String,
@@ -52,7 +52,7 @@ const userPreCallback = function(next) {
   })
 }
 
-UserSchema.pre('save', userPreCallback)
-UserSchema.pre('update', userPreCallback)
+userSchema.pre('save', userPreCallback)
+userSchema.pre('update', userPreCallback)
 
-export const userService = createService('User', UserSchema)
+export const userService = createService('User', userSchema)

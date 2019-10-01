@@ -2,7 +2,7 @@ import http from 'http'
 import express from 'express'
 import { applyMiddleware } from 'graphql-middleware'
 import { ApolloServer as Apollo } from 'apollo-server-express'
-import { Logger, staticFiles, initDB } from '@/lib'
+import { Logger, initDB } from '@/lib'
 import { CORS as cors } from '@/constants'
 
 const morgan = require('morgan')
@@ -61,7 +61,9 @@ const ApolloServer = opts => {
 
   const { combined, stream } = Logger
 
-  apollo.use('/uploads/:file', staticFiles)
+  apollo.use('/uploads/', express.static('uploads'))
+  apollo.use('/', express.static('public'))
+
   apollo.use(morgan(combined, { stream }))
 
   return apollo

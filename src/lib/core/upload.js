@@ -4,16 +4,6 @@ import jimp from 'jimp'
 
 const whiteList = ['png', 'jpg', 'jpeg']
 
-export const staticFiles = async (req, res) => {
-  const path = `${process.cwd()}/uploads/${req.params.file}`
-
-  if (!fs.existsSync(path)) {
-    return res.status(404).send('Not found')
-  }
-
-  return res.sendFile(path)
-}
-
 const createPath = (prefix, id, extra, extension) => {
   return `${process.cwd()}/uploads/${prefix}${id}.${extra ? extra + '.' : ''}${extension}`
 }
