@@ -1,5 +1,3 @@
-directive @upper on FIELD_DEFINITION
-
 type Query {
   user(username: String!): User
   users: [User!]!
@@ -10,7 +8,7 @@ type User {
   id: String!
   username: String!
   password: String!
-  email: String! @deprecated(reason: "Not alloweds")
+  email: String!
   role: String!
   token: String!
 }

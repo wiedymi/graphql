@@ -3,7 +3,9 @@ import userModule from './user'
 import authModule from './auth'
 import uploadModule from './upload'
 
-export default new GraphQLModule({
+const { schema } = new GraphQLModule({
   name: 'app',
   imports: [userModule, authModule, uploadModule],
 })
+
+export default schema
