@@ -7,4 +7,4 @@ const resolver = {
   },
 }
 
-export const UpperDirective = schema => createDirective(schema, resolver)
+export const UpperDirective = createDirective(resolver)
