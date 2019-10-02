@@ -2,7 +2,7 @@ import http from 'http'
 import express from 'express'
 import { applyMiddleware } from 'graphql-middleware'
 import { ApolloServer as Apollo } from 'apollo-server-express'
-import { Logger, initDB } from '@/lib'
+import { Logger, initDB, getDirectives } from '@/lib'
 import { CORS as cors } from '@/constants'
 
 const morgan = require('morgan')
@@ -11,7 +11,6 @@ const app = express()
 const defaultSetting = {
   cors,
   middlewares: [],
-  directives: [],
   introspection: true,
   context: ({ req, connection }) => {
     if (connection) {
@@ -35,8 +34,8 @@ const ApolloServer = opts => {
     ...opts,
   }
   const { schema, middlewares, directives, ...options } = settings
-
-  const schemaDirectives = Object.entries(directives).map(directive => {
+  const toDirectives = directives || getDirectives(schema)
+  const schemaDirectives = Object.entries(toDirectives).map(directive => {
     return {
       [directive[0]]: directive[1],
     }
