@@ -21,6 +21,6 @@ const uploadMany = async (root, { files }, context) => {
 }
 
 export const Mutation = {
-  upload: validator(uploadValidator, upload),
-  uploadMany: validator([], uploadMany),
+  upload: uploadValidator(upload),
+  uploadMany: uploadValidator(uploadMany),
 }
