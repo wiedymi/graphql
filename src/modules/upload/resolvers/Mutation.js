@@ -1,4 +1,3 @@
-import { validator } from 'graphql-validation'
 import { singleUpload, multiUpload } from '@/lib'
 import { uploadValidator } from './validators'
 
@@ -7,7 +6,13 @@ const upload = async (root, { file }, { validationErrors }) => {
     throw new Error(validationErrors)
   }
 
-  return singleUpload(file, { prefix: 'avatars/' })
+  const callback = async file => {
+    return file
+  }
+
+  const uploads = await singleUpload(file, { prefix: 'avatars/' }, callback)
+
+  return uploads
 }
 
 const uploadMany = async (root, { files }, context) => {
