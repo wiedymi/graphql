@@ -6,8 +6,8 @@ type Mutation {
 }
 
 type File {
-  filename: String!
-  mimetype: String!
+  id: String!
+  path: String!
   encoding: String!
 }
 
