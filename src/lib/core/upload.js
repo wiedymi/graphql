@@ -33,7 +33,12 @@ const fileHandler = async (raw, opts, callback) => {
       const image = await jimp.read(buffer)
 
       if (!callback) {
-        return
+        return {
+          id,
+          path,
+          prefix,
+          extension,
+        }
       }
 
       resolve(
@@ -61,5 +66,9 @@ export const singleUpload = async (file, opts = { whiteList }, callback) => {
 }
 
 export const multiUpload = async (files, opts = { whiteList }, callback) => {
-  return files.map(async raw => fileHandler(raw, opts, callback))
+  return files.map(async raw => {
+    const result = await fileHandler(raw, opts, callback)
+
+    return result
+  })
 }

@@ -15,9 +15,9 @@ const upload = async (root, { file }, { validationErrors }) => {
   return uploads
 }
 
-const uploadMany = async (root, { files }, context) => {
-  if (context.validationErrors) {
-    console.log(context.validationErrors)
+const uploadMany = async (root, { files }, { validationErrors }) => {
+  if (validationErrors) {
+    console.log(validationErrors)
 
     return
   }
