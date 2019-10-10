@@ -1,9 +1,11 @@
 import http from 'http'
+import helmet from 'helmet'
 import express from 'express'
 import { applyMiddleware } from 'graphql-middleware'
 import { ApolloServer as Apollo } from 'apollo-server-express'
 import { Logger, initDB, getDirectives } from '@/lib'
 import { CORS as cors } from '@/constants'
+import { rateLimiterMiddleware } from '@/lib/middlewares'
 
 const morgan = require('morgan')
 const app = express()
@@ -49,8 +51,6 @@ const ApolloServer = opts => {
 
   const path = '/graphql'
 
-  apollo.applyMiddleware({ app, path })
-
   const server = http.createServer(app)
   apollo.installSubscriptionHandlers(server)
 
@@ -60,6 +60,8 @@ const ApolloServer = opts => {
 
   apollo.listen = (...params) => {
     initDB()
+    apollo.applyMiddleware({ app, path })
+
     return server.listen(...params)
   }
 
@@ -68,9 +70,10 @@ const ApolloServer = opts => {
 
   const { combined, stream } = Logger
 
+  apollo.use(rateLimiterMiddleware())
+  apollo.use(helmet())
   apollo.use('/uploads/', express.static('uploads'))
   apollo.use('/', express.static('public'))
-
   apollo.use(morgan(combined, { stream }))
 
   return apollo
