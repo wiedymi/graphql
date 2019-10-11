@@ -1,17 +1,10 @@
-import uuid from 'uuid'
 import { Schema } from 'mongoose'
 import { createService } from '@/lib'
+import { id } from './id'
 
 const uploadSchema = new Schema(
   {
-    id: {
-      type: String,
-      required: true,
-      unique: true,
-      default: () => {
-        return uuid()
-      },
-    },
+    id,
     userId: {
       type: String,
     },
