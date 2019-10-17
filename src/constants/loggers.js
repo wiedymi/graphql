@@ -2,6 +2,8 @@ const INFO = 'info'
 const DEBUG = 'debug'
 const ERROR = 'error'
 
+const LEVELS = { error: 0, warn: 1, info: 2, verbose: 3, debug: 4, silly: 5 }
+
 const FILES = {
   [INFO]: 'info',
   [DEBUG]: 'debug',
@@ -20,4 +22,5 @@ export default {
   INFO,
   DEBUG,
   ERROR,
+  LEVELS,
 }

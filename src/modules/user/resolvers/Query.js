@@ -10,8 +10,8 @@ const user = async (root, { username }, { db, validationErrors }) => {
   return user
 }
 
-const users = async (root, args, { db }) => {
-  const users = await db.getMany({})
+const users = async (root, { offset, limit }, { db }) => {
+  const users = await db.paginate({}, { offset, limit, lean: true })
 
   return users
 }
@@ -19,5 +19,4 @@ const users = async (root, args, { db }) => {
 export const Query = {
   user: userValidator(user),
   users,
-  hello: () => 'Hello',
 }

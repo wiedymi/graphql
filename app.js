@@ -15,10 +15,15 @@ const application = ApolloServer({
 })
 
 const port = config.PORT || 4000
-application.listen({ port }, '0.0.0.0')
+application.listen({
+  port,
+  host: '0.0.0.0',
+})
 
 console.log(`🚀  GraphQL: http://localhost:${port + application.path}`)
 console.log(`🚀  Subscriptions: ws://localhost:${port + application.subscriptions}`)
 
 process.setMaxListeners(0)
-process.on('SIGINT', () => process.exit())
+process.on('SIGINT', function(err) {
+  process.exit(err ? 1 : 0)
+})

@@ -1,7 +1,7 @@
 import winston from 'winston'
 import { LOGGERS } from '@/constants'
 
-const { FILES, COLORS, INFO, ERROR, DEBUG } = LOGGERS
+const { FILES, COLORS, INFO, ERROR, DEBUG, LEVELS } = LOGGERS
 
 const {
   format,
@@ -29,6 +29,7 @@ const consoleLogViewFormat = format.combine(
 
 const createLoggers = type => {
   return new createLogger({
+    levels: LEVELS,
     transports: [
       new Console({
         level: type,

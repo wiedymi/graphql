@@ -1,7 +1,7 @@
 import { isGuest, isAuthenticated } from './permissions'
 
 export const Query = {
-  users: isAuthenticated,
+  users: isGuest,
 }
 
 export const Mutation = {

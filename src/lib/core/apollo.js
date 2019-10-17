@@ -1,6 +1,7 @@
 import http from 'http'
 import helmet from 'helmet'
 import express from 'express'
+import compression from 'compression'
 import { applyMiddleware } from 'graphql-middleware'
 import { ApolloServer as Apollo } from 'apollo-server-express'
 import { Logger, initDB, getDirectives } from '@/lib'
@@ -72,6 +73,7 @@ const ApolloServer = opts => {
 
   apollo.use(rateLimiterMiddleware())
   apollo.use(helmet())
+  apollo.use(compression())
   apollo.use('/uploads/', express.static('uploads'))
   apollo.use('/', express.static('public'))
   apollo.use(morgan(combined, { stream }))

@@ -5,3 +5,9 @@ export const uploadValidator = createValidator([
     .not()
     .isEmpty({ msg: 'File is required' }),
 ])
+
+export const uploadManyValidator = createValidator([
+  validate('files')
+    .not()
+    .isEmpty({ msg: 'Files are required' }),
+])
