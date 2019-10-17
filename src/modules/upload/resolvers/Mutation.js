@@ -1,5 +1,5 @@
 import { singleUpload, multiUpload } from '@/lib'
-import { uploadValidator } from './validators'
+import { uploadValidator, uploadManyValidator } from './validators'
 
 const upload = async (root, { file }, { validationErrors }) => {
   if (validationErrors) {
@@ -17,9 +17,7 @@ const upload = async (root, { file }, { validationErrors }) => {
 
 const uploadMany = async (root, { files }, { validationErrors }) => {
   if (validationErrors) {
-    console.log(validationErrors)
-
-    return
+    throw new Error(validationErrors)
   }
 
   return multiUpload(files)
@@ -27,5 +25,5 @@ const uploadMany = async (root, { files }, { validationErrors }) => {
 
 export const Mutation = {
   upload: uploadValidator(upload),
-  uploadMany: uploadValidator(uploadMany),
+  uploadMany: uploadManyValidator(uploadMany),
 }

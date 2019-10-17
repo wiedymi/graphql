@@ -1,22 +1,27 @@
 import nodemailer from 'nodemailer'
 import { MAIL } from '@/constants'
+import { Logger } from '@/lib'
 
 const { setting } = MAIL
 class Mail {
   constructor(from, to, subject, text, html, attachments) {
     this.send = async () => {
-      const transporter = nodemailer.createTransport(setting)
+      try {
+        const transporter = nodemailer.createTransport(setting)
 
-      const info = await transporter.sendMail({
-        from,
-        to,
-        subject,
-        text,
-        html,
-        attachments,
-      })
+        const info = await transporter.sendMail({
+          from,
+          to,
+          subject,
+          text,
+          html,
+          attachments,
+        })
 
-      return info
+        return info
+      } catch (err) {
+        Logger.debug(`Mail Service: ${err}`)
+      }
     }
   }
 }

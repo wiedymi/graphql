@@ -3,9 +3,9 @@ import { RateLimiterMongo } from 'rate-limiter-flexible'
 import { DATABASE, setRateLimiter } from '@/constants'
 
 const { OPTIONS, URL } = DATABASE
-const mongoConn = mongoose.createConnection(URL, OPTIONS)
+const connection = mongoose.createConnection(URL, OPTIONS)
 
-const rateLimiterMongo = new RateLimiterMongo(setRateLimiter(mongoConn))
+const rateLimiterMongo = new RateLimiterMongo(setRateLimiter(connection))
 
 const rateLimiterMiddleware = () => (req, res, next) => {
   rateLimiterMongo

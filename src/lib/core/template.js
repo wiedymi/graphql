@@ -18,7 +18,7 @@ export const template = async (filePath, options) => {
   }
 
   Object.entries(options).map(opt => {
-    rendered = rendered.replaceAll(`$${opt[0]}`, opt[1])
+    rendered = rendered.replaceAll(`$\{${opt[0]}}`, opt[1])
   })
 
   return rendered

@@ -1,7 +1,6 @@
 type Query {
   user(username: String!): User
-  users: [User!]!
-  hello: String @upper
+  users(offset: Int!, limit: Int!): userPagination!
 }
 
 type User {
@@ -10,7 +9,6 @@ type User {
   password: String!
   email: String!
   role: String!
-  token: String!
 }
 
 type Mutation {
@@ -19,4 +17,11 @@ type Mutation {
 
 type Subscription {
   users: User
+}
+
+type userPagination {
+  docs: [User!]!
+  totalDocs: Int!
+  limit: Int!
+  offset: Int!
 }

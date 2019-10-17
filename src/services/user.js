@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt'
 import { Schema } from 'mongoose'
+import mongoosePaginate from 'mongoose-paginate-v2'
 import { createService, config } from '@/lib'
 import { ROLES } from '@/constants'
 import { id } from './id'
@@ -30,6 +31,8 @@ const userSchema = new Schema(
   },
   { collection: 'users' },
 )
+
+userSchema.plugin(mongoosePaginate)
 
 const userPreCallback = function(next) {
   const user = this
