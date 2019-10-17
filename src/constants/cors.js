@@ -1,4 +1,4 @@
 export const CORS = {
-  origin: 'http://localhost:4000',
+  origin: 'http://localhost:5000',
   credentials: true,
 }
