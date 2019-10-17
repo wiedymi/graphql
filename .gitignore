@@ -2,3 +2,5 @@
 /logs
 /uploads/*
 .env
+*.log
+*.lock
