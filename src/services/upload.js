@@ -1,10 +1,7 @@
-import { Schema } from 'mongoose'
-import { createService } from '@/lib'
-import { id } from './id'
+import { createService, createSchema } from '@/lib'
 
-const uploadSchema = new Schema(
+const uploadSchema = createSchema(
   {
-    id,
     userId: {
       type: String,
     },

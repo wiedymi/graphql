@@ -1,15 +1,12 @@
 import bcrypt from 'bcrypt'
-import { Schema } from 'mongoose'
 import mongoosePaginate from 'mongoose-paginate-v2'
-import { createService, config } from '@/lib'
+import { createService, createSchema, config } from '@/lib'
 import { ROLES } from '@/constants'
-import { id } from './id'
 
 const { REGISTERED } = ROLES
 
-const userSchema = new Schema(
+const userSchema = createSchema(
   {
-    id,
     email: {
       type: String,
       required: true,
