@@ -1,6 +1,6 @@
 export const setRateLimiter = (mongoConn, opts = {}) => ({
   storeClient: mongoConn,
-  points: 100, // Number of points
+  points: 10000, // Number of points
   duration: 1,
   ...opts,
 })

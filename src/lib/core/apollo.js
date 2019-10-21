@@ -4,7 +4,7 @@ import express from 'express'
 import compression from 'compression'
 import { applyMiddleware } from 'graphql-middleware'
 import { ApolloServer as Apollo } from 'apollo-server-express'
-import { Logger, initDB, getDirectives } from '@/lib'
+import { Logger, initDB, getDirectives, staticFiles } from '@/lib'
 import { CORS as cors } from '@/constants'
 import { rateLimiterMiddleware } from '@/lib/middlewares'
 
@@ -52,18 +52,10 @@ const ApolloServer = opts => {
 
   const path = '/graphql'
 
-  const server = http.createServer(app)
-  apollo.installSubscriptionHandlers(server)
+  apollo.applyMiddleware({ app, path })
 
   apollo.use = (...params) => {
     return app.use(...params)
-  }
-
-  apollo.listen = (...params) => {
-    initDB()
-    apollo.applyMiddleware({ app, path })
-
-    return server.listen(...params)
   }
 
   apollo.path = apollo.graphqlPath
@@ -74,9 +66,18 @@ const ApolloServer = opts => {
   apollo.use(rateLimiterMiddleware())
   apollo.use(helmet())
   apollo.use(compression())
-  apollo.use('/uploads/', express.static('uploads'))
-  apollo.use('/', express.static('public'))
+  apollo.use('/uploads/', staticFiles('uploads'))
+  apollo.use(require('prerender-node'))
   apollo.use(morgan(combined, { stream }))
+
+  const server = http.createServer(app)
+  apollo.installSubscriptionHandlers(server)
+
+  apollo.listen = (...params) => {
+    initDB()
+
+    return server.listen(...params)
+  }
 
   return apollo
 }
