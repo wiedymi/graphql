@@ -22,8 +22,3 @@ application.listen({
 
 console.log(`🚀  GraphQL: http://localhost:${port + application.path}`)
 console.log(`🚀  Subscriptions: ws://localhost:${port + application.subscriptions}`)
-
-process.setMaxListeners(0)
-process.on('SIGINT', function() {
-  process.exit(0)
-})

@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node clusters.js --experimental-modules",
+    "start": "pm2 start ecosystem.json",
+    "stop": "pm2 stop ecosystem.json",
     "dev": "nodemon -e js,graphql,env -w .env -w . node index"
   },
   "dependencies": {

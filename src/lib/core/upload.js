@@ -2,15 +2,6 @@ import fs from 'fs'
 import uuid from 'uuid'
 import jimp from 'jimp'
 
-export const staticFiles = staticPath => async (req, res) => {
-  const path = `${process.cwd()}/${staticPath}${req.url}`.replace('.js/', '.js')
-  if (!fs.existsSync(path)) {
-    return res.status(404).send('Not found')
-  }
-
-  return res.sendFile(path)
-}
-
 const whiteList = ['png', 'jpg', 'jpeg']
 
 const createPath = (prefix, fileName, extra, extension) => {
