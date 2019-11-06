@@ -1,16 +1,16 @@
 import nodemailer from 'nodemailer'
 import { MAIL } from '@/constants'
-import { Logger } from '@/lib'
+import { Logger, config } from '@/lib'
 
 const { setting } = MAIL
 class Mail {
-  constructor(from, to, subject, text, html, attachments) {
+  constructor(to, subject, text, html, attachments) {
     this.send = async () => {
       try {
         const transporter = nodemailer.createTransport(setting)
 
         const info = await transporter.sendMail({
-          from,
+          from: config.MAIL_FROM,
           to,
           subject,
           text,
@@ -20,7 +20,7 @@ class Mail {
 
         return info
       } catch (err) {
-        Logger.debug(`Mail Service: ${err}`)
+        Logger.error(err.stack)
       }
     }
   }

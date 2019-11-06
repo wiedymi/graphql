@@ -7,18 +7,12 @@ export const template = async (filePath, options) => {
 
   let rendered = content.toString()
 
-  String.prototype.replaceAll = function(str1, str2, ignore) {
-    return this.replace(
-      new RegExp(
-        str1.replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g, '\\$&'),
-        ignore ? 'gi' : 'g',
-      ),
-      typeof str2 == 'string' ? str2.replace(/\$/g, '$$$$') : str2,
-    )
+  String.prototype.replaceAll = function(name, value) {
+    return this.replace(new RegExp(`\\\{${name}}`, 'gi'), value)
   }
 
   Object.entries(options).map(opt => {
-    rendered = rendered.replaceAll(`$\{${opt[0]}}`, opt[1])
+    rendered = rendered.replaceAll(`${opt[0]}`, opt[1])
   })
 
   return rendered
