@@ -19,4 +19,9 @@ VALID_EXTENSIONS.forEach(ext => {
   require.extensions[`.${ext}`] = handleModule
 })
 
+process.setMaxListeners(0)
+process.on('SIGINT', function() {
+  process.exit(0)
+})
+
 module.exports = require('./app.js')

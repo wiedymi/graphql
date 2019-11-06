@@ -52,18 +52,15 @@ const ApolloServer = opts => {
 
   const path = '/graphql'
 
-  const server = http.createServer(app)
-  apollo.installSubscriptionHandlers(server)
+  app.use('/uploads', express.static('uploads'))
+  app.use(express.static('public'))
+  app.get('*', (req, res) => {
+    const index = `${process.cwd()}/public/index.html`
+    res.sendFile(index)
+  })
 
   apollo.use = (...params) => {
     return app.use(...params)
-  }
-
-  apollo.listen = (...params) => {
-    initDB()
-    apollo.applyMiddleware({ app, path })
-
-    return server.listen(...params)
   }
 
   apollo.path = apollo.graphqlPath
@@ -74,9 +71,19 @@ const ApolloServer = opts => {
   apollo.use(rateLimiterMiddleware())
   apollo.use(helmet())
   apollo.use(compression())
-  apollo.use('/uploads/', express.static('uploads'))
-  apollo.use('/', express.static('public'))
+  apollo.use(require('prerender-node'))
   apollo.use(morgan(combined, { stream }))
+
+  apollo.applyMiddleware({ app, path })
+
+  const server = http.createServer(app)
+  apollo.installSubscriptionHandlers(server)
+
+  apollo.listen = (...params) => {
+    initDB()
+
+    return server.listen(...params)
+  }
 
   return apollo
 }
